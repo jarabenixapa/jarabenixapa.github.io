@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Mantenimiento</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-image: url('img/fondo4.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #333;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: transparent;
+            color: white;
+        }
+        
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 0.5px black;
+        }
+        
+        .button-container {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr auto 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .button {
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            background-color: rgba(0,0,0,0.5);
+            width: 100%;
+        }
+        
+        .button:hover {
+            transform: scale(1.05);
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        .password-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .password-container input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .password-container button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .password-container button:hover {
+            transform: scale(1.05);
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .bottom-button {
+            grid-column: 1 / span 2;
+            justify-self: center;
+        }
+        
+        .footer {
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+        }
+
+        #week-number {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .menu-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        @media screen and (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .question {
+                font-size: 1.2rem;
+            }
+
+            .button-container {
+                max-width: 250px;
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(3, auto);
+            }
+
+            .button {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+
+            .bottom-button {
+                grid-column: 1;
+            }
+        }
+
+        @media screen and (max-height: 500px) {
+            .button-container {
+                max-width: 200px;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .question {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div id="week-number">Semana 50</div>
+        <button class="menu-button" id="menu-btn">Menú</button>
+    </header>
+
+    <main class="main-content">
+        <div class="question">Mantenimiento.</div>
+        
+        <div class="button-container">
+            <button class="button" id="mangyver">Mangyver</button>
+            <button class="button" id="seguridadterritorial">Seguridad Territorial</button>
+            <button class="button" id="acadia">Acadia</button>
+            <button class="button" id="energia">Energía</button>
+        </div>
+
+        <div class="password-container" id="password-container">
+            <label for="password">Ingrese la contraseña:</label>
+            <input type="password" id="password" placeholder="Contraseña">
+            <input type="checkbox" id="toggle-password"> Mostrar contraseña
+            <button id="confirm-password">Confirmar</button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        © 2025 Sitio Web Jarabe. Planta Nixapa 👻.
+    </footer>
+
+    <script>
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            let weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return weekNo;
+        }
+
+        document.getElementById('week-number').textContent = `Semana ${getWeekNumber(new Date())}`;
+
+        document.getElementById('mangyver').addEventListener('click', () => {
+            window.location.href = 'https://mazsupplyapps.ab-inbev.com/mangyver';
+        });
+
+        document.getElementById('seguridadterritorial').addEventListener('click', () => {
+            window.location.href = 'https://forms.office.com/pages/responsepage.aspx?id=GUvwznZ3lEq4mzdcd6j5NhH4iqaDy6VNmN5Wz-1sic9URFFMQTNYTDBKMThOVTE1S0RRM09QNVJUUCQlQCN0PWcu';
+        });
+
+        document.getElementById('acadia').addEventListener('click', () => {
+            window.location.href = 'https://ab-inbev.acadia.sysalli.com/browse';
+        });
+
+        document.getElementById('energia').addEventListener('click', () => {
+            document.getElementById('password-container').style.display = 'flex';
+        });
+
+        document.getElementById('toggle-password').addEventListener('change', (e) => {
+            const passwordInput = document.getElementById('password');
+            passwordInput.type = e.target.checked ? 'text' : 'password';
+        });
+
+        document.getElementById('confirm-password').addEventListener('click', () => {
+            const password = document.getElementById('password').value;
+            if (password === "jarabe2025") {
+                window.location.href = 'https://anheuserbuschinbev-my.sharepoint.com/:x:/r/personal/lcea_gmodelo_com_mx/_1ayouts/15/Doc.aspx?sourcedac-%7B81EE3ADC-BBE7-463F-866C-9288669A4780%7D&file=DATOS%20E/EX2eNTXAPA.x1sx&actiondefault@mobilenedirecf-true';
+            } else {
+                alert("Contraseña incorrecta. Por favor, inténtalo nuevamente.");
+            }
+        });
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
