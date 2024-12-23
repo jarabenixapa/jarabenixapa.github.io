@@ -207,6 +207,7 @@
             <button class="button" id="seguridadterritorial">Seguridad Territorial</button>
             <button class="button" id="acadia">Acadia</button>
             <button class="button" id="energia">Energía</button>
+            <button class="button bottom-button" id="autonomo">Autónomo</button>
         </div>
 
         <div class="password-container" id="password-container">
@@ -246,6 +247,10 @@
 
         document.getElementById('energia').addEventListener('click', () => {
             document.getElementById('password-container').style.display = 'flex';
+        });
+
+         document.getElementById('autonomo').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABESCSD/Archivos%20ETO/Forms/AllItems.aspx?id=%2Fsites%2FJARABESCSD%2FArchivos%20ETO%2FMANTENIMIENTO%2FAUTONOMOS&viewid=0ab03584%2D2910%2D4957%2D9d8a%2Dc14493b3797e';
         });
 
         document.getElementById('toggle-password').addEventListener('change', (e) => {
