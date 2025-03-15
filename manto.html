@@ -206,16 +206,9 @@
             <button class="button" id="mangyver">Mangyver</button>
             <button class="button" id="seguridadterritorial">Seguridad Territorial</button>
             <button class="button" id="acadia">Acadia</button>
-            <button class="button" id="energia">Energía</button>
+            <button class="button" id="rutinas">Rutinas</button>
             <button class="button" id="autonomo">Autónomo</button>
             <button class="button" id="sharepoint">Sharepoint De Mantenimiento.</button>
-        </div>
-
-        <div class="password-container" id="password-container">
-            <label for="password">Ingrese la contraseña:</label>
-            <input type="password" id="password" placeholder="Contraseña">
-            <input type="checkbox" id="toggle-password"> Mostrar contraseña
-            <button id="confirm-password">Confirmar</button>
         </div>
     </main>
 
@@ -246,8 +239,8 @@
             window.location.href = 'https://ab-inbev.acadia.sysalli.com/browse';
         });
 
-        document.getElementById('energia').addEventListener('click', () => {
-            document.getElementById('password-container').style.display = 'flex';
+        document.getElementById('rutinas').addEventListener('click', () => {
+            window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLScOwzAU6RfUrgN68ytVYgOL8u_HTfpXkHPY_FYLMVgMcmeExw/viewform?pli=1';
         });
 
          document.getElementById('autonomo').addEventListener('click', () => {
@@ -257,21 +250,6 @@
         document.getElementById('sharepoint').addEventListener('click', () => {
             window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABECENTRODEVALVULASYBOMBAS';
         });
-
-        document.getElementById('toggle-password').addEventListener('change', (e) => {
-            const passwordInput = document.getElementById('password');
-            passwordInput.type = e.target.checked ? 'text' : 'password';
-        });
-
-        document.getElementById('confirm-password').addEventListener('click', () => {
-            const password = document.getElementById('password').value;
-            if (password === "jarabe2025") {
-                window.location.href = 'https://anheuserbuschinbev-my.sharepoint.com/:x:/r/personal/lcea_gmodelo_com_mx/_1ayouts/15/Doc.aspx?sourcedac-%7B81EE3ADC-BBE7-463F-866C-9288669A4780%7D&file=DATOS%20E/EX2eNTXAPA.x1sx&actiondefault@mobilenedirecf-true';
-            } else {
-                alert("Contraseña incorrecta. Por favor, inténtalo nuevamente.");
-            }
-        });
-
         document.getElementById('menu-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
