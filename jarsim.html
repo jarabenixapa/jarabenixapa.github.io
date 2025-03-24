@@ -171,12 +171,13 @@
         
         <div class="button-container">
             <button class="button" id="agua">Agua</button>
+            <button class="button" id="aguajs">Lavado Y Recuperación</button>
             <button class="button" id="autonomo">Autónomo</button>
             <button class="button" id="turbidezyfloc">Turbidez y floc</button>
             <button class="button" id="cambiodeturno">Cambio de Turno</button>
             <button class="button" id="acadia">Acadia</button>
             <button class="button" id="mangyver">Mangyver</button>
-            <button class="button bottom-button" id="seguridadterritorial">Seguridad Territorial</button>
+            <button class="button" id="seguridadterritorial">Seguridad Territorial</button>
         </div>
     </main>
 
@@ -198,6 +199,9 @@
 
         // Redirección al hacer clic en los botones
         document.getElementById('agua').addEventListener('click', () => {
+            window.location.href = 'https://jsimple-2ed2d.web.app';
+        });
+        document.getElementById('aguajs').addEventListener('click', () => {
             window.location.href = 'https://anheuserbuschinbev.sharepoint.com/:x:/r/sites/JARABESCSD/_layouts/15/Doc.aspx?sourcedoc=%7BDD4A3EAB-759B-4C45-AC20-EC142D649043%7D&file=SIC%20Monitoreo%20de%20Consumo%20Agua%20en%20JarSimple%202025.xlsx&nav=MTVfe0NDRjNGQ0ZCLUY2MDQtNEVERC1COEQ0LUNFQjFFMkIxRTczM30&action=default&mobileredirect=true';
         });
 
