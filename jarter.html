@@ -176,8 +176,9 @@
             <button class="button" id="interactionlog">InteractionLog</button>
             <button class="button" id="seguridadterritorial">Seguridad Territorial</button>
             <button class="button" id="inbev">Inbev</button>
-             <button class="button" id="acadia">Acadia</button>
+            <button class="button" id="acadia">Acadia</button>
             <button class="button" id="mangyver">Mangyver</button>
+            <button class="button bottom-button" id="patrones">Muestra De Patrones</button>
         </div>
     </main>
 
@@ -227,6 +228,10 @@
 
         document.getElementById('mangyver').addEventListener('click', () => {
             window.location.href = 'https://mazsupplyapps.ab-inbev.com/mangyver';
+        });
+
+        document.getElementById('patrones').addEventListener('click', () => {
+            window.location.href = 'https://registrodepatrones.web.app';
         });
         // Redirección al botón de Menú
         document.getElementById('menu-btn').addEventListener('click', () => {
