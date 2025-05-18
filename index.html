@@ -398,7 +398,6 @@
             
             <!-- Puntos de navegación -->
             <div class="carousel-nav" id="carouselNav">
-
             </div>
         </div>
         
@@ -408,7 +407,7 @@
     <!-- Modal para mostrar la imagen -->
     <div class="modal" id="imageModal">
         <span class="close-modal">&times;</span>
-        <img src="jarabe2.webp" alt="Imagen ampliada" class="modal-content" id="modalImage">
+        <img src="" alt="Imagen ampliada" class="modal-content" id="modalImage">
     </div>
 
     <main class="main-content">
@@ -460,7 +459,6 @@
             window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABESCSD';
         });
 
-        // Generar burbujas dinámicamente
         function createBubble() {
             const bubble = document.createElement('span');
             bubble.classList.add('bubble');
@@ -482,19 +480,19 @@
 
         logo.onclick = function() {
             modal.style.display = 'flex';
-            modalImg.src = 'logo 1.png';
+            modalImg.src = '1.png';
         }
 
         closeModal.onclick = function() {
             modal.style.display = 'none';
         }
+
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
         }
 
-        // Configuración del carrusel de imágenes con 5 anuncios
         const carouselImages = [
             {src: '1.jpg', alt: 'Anuncio 1', title: 'Best'},
             {src: '2.jpg', alt: 'Anuncio 2', title: 'Club 500'},
@@ -503,7 +501,7 @@
             {src: '5.png', alt: 'Anuncio 5', title: 'Los 10 Principios'}
         ];
 
-        const fallbackImages = ['jarabe.webp', 'logo 1.png', '10.png', 'anuncio1.jpg', 'anuncio2.jpg'];
+        const fallbackImages = ['1.png', 'jarabe2.webp', '10.png'];
 
         const carousel = document.getElementById('imageCarousel');
         const carouselNav = document.getElementById('carouselNav');
@@ -512,18 +510,18 @@
         let currentIndex = 0;
         let carouselInterval;
 
-        // Crear imágenes del carrusel y puntos de navegación
         carouselImages.forEach((imgData, index) => {
+
             const imgSrc = imgData.src || fallbackImages[index % fallbackImages.length];
             const imgAlt = imgData.alt || `Anuncio ${index + 1}`;
-            
-            // Crear elemento de imagen
+
             const img = document.createElement('img');
             img.src = imgSrc;
             img.alt = imgAlt;
             img.title = imgData.title || '';
             img.dataset.index = index;
             
+
             img.addEventListener('click', function() {
                 modal.style.display = 'flex';
                 modalImg.src = this.src;
@@ -534,8 +532,7 @@
             });
             
             carousel.appendChild(img);
-            
-            // Crear punto de navegación
+
             const dot = document.createElement('div');
             dot.classList.add('carousel-dot');
             if (index === 0) dot.classList.add('active');
@@ -547,12 +544,10 @@
             carouselNav.appendChild(dot);
         });
 
-        // Función para mover el carrusel a una slide específica
         function goToSlide(index) {
             currentIndex = (index + carouselImages.length) % carouselImages.length;
             carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-            
-            // Actualizar puntos de navegación
+
             document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
                 if (i === currentIndex) {
                     dot.classList.add('active');
@@ -562,17 +557,14 @@
             });
         }
 
-        // Función para avanzar al siguiente slide
         function nextSlide() {
             goToSlide(currentIndex + 1);
         }
 
-        // Función para retroceder al slide anterior
         function prevSlide() {
             goToSlide(currentIndex - 1);
         }
 
-        // Event listeners para las flechas
         nextBtn.addEventListener('click', () => {
             nextSlide();
             resetInterval();
@@ -583,33 +575,32 @@
             resetInterval();
         });
 
-        // Auto-avance del carrusel
         function startInterval() {
             carouselInterval = setInterval(() => {
                 nextSlide();
-            }, 5000);// Cambia de imagen cada 5 segundos
+            }, 5000); // Cambia cada 5 segundos
         }
 
-        // Reiniciar el intervalo
+
         function resetInterval() {
             clearInterval(carouselInterval);
             startInterval();
         }
 
-        // Iniciar auto-avance
+
         startInterval();
 
-        // Pausar auto-avance cuando el mouse está sobre el carrusel
+
         carousel.addEventListener('mouseenter', () => {
             clearInterval(carouselInterval);
         });
 
-        // Reanudar auto-avance cuando el mouse sale del carrusel
+
         carousel.addEventListener('mouseleave', () => {
             startInterval();
         });
 
-        // Navegación con teclado
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') {
                 nextSlide();
@@ -620,11 +611,20 @@
             }
         });
 
+
         window.addEventListener('load', () => {
+
             carouselImages.forEach(imgData => {
                 const img = new Image();
                 img.src = imgData.src || fallbackImages[0];
             });
+            
+
+            const logoImg = new Image();
+            logoImg.src = '1.png';
+            
+            const jarabeImg = new Image();
+            jarabeImg.src = 'jarabe2.webp';
         });
     </script>
 </body>
