@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú Jarabe Nixapa</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -45,7 +47,7 @@
             bottom: -50px;
             width: 10px;
             height: 10px;
-            background-color: rgba(212, 1, 1, 0.993);
+            background-color: rgba(252, 40, 40, 0.993);
             border-radius: 50%;
             opacity: 0.6-0.8;
             animation: rise 6s infinite linear;
@@ -67,7 +69,7 @@
 
         .header {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Cambiado para espacio entre logo y semana */
             align-items: center;
             padding: 15px;
             background-color: transparent;
@@ -88,7 +90,7 @@
             transform: scale(1.05);
         }
 
-        /* Estilos para el modal */
+        /* Estilos del modal */
         .modal {
             display: none;
             position: fixed;
@@ -96,7 +98,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -105,8 +107,6 @@
         .modal-content {
             max-width: 90%;
             max-height: 90%;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
 
         .close-modal {
@@ -114,13 +114,8 @@
             top: 20px;
             right: 30px;
             color: white;
-            font-size: 40px;
+            font-size: 30px;
             cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: #ff0000;
         }
 
         .main-content {
@@ -163,21 +158,14 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
             background-color: rgba(0,0,0,0.5);
             width: 100%;
-            position: relative;
-            overflow: hidden;
         }
 
         .button:hover {
             transform: scale(1.05);
             background-color: darkred;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-        }
-
-        .button:active {
-            transform: scale(0.98);
         }
 
         .bottom-button {
@@ -191,134 +179,90 @@
             text-align: center;
             padding: 15px;
             width: 100%;
-            font-size: 0.9rem;
+            position: relative;
         }
 
         #week-number {
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            font-weight: bold;
-            font-size: 1.1rem;
         }
 
-        /* Estilos mejorados para el carrusel */
-        .carousel-container {
-            position: relative;
-            width: 300px;
-            height: 120px;
-            margin: 0 15px;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            background-color: rgba(0,0,0,0.3);
-        }
-
-        .carousel {
-            display: flex;
-            transition: transform 0.6s ease-in-out;
-            height: 100%;
-        }
-
-        .carousel img {
-            min-width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .carousel img:hover {
-            transform: scale(1.03);
-        }
-
-        .carousel-nav {
+        /* Contador de días sin reclamos */
+        .days-counter {
             position: absolute;
             bottom: 10px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .days-counter:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        /* Modal para mostrar reclamos */
+        .claims-modal {
+            display: none;
+            position: fixed;
+            top: 0;
             left: 0;
-            right: 0;
-            display: flex;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
             justify-content: center;
-            gap: 8px;
-        }
-
-        .carousel-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.6);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.3);
-        }
-
-        .carousel-dot:hover {
-            background-color: rgba(255,255,255,0.9);
-        }
-
-        .carousel-dot.active {
-            background-color: white;
-            transform: scale(1.2);
-        }
-
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 30px;
-            height: 30px;
-            background-color: rgba(0,0,0,0.5);
-            color: white;
-            border-radius: 50%;
-            display: flex;
             align-items: center;
-            justify-content: center;
+        }
+
+        .claims-modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: #333;
+        }
+
+        .claims-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
             cursor: pointer;
-            font-size: 18px;
-            z-index: 10;
-            transition: all 0.3s ease;
-            opacity: 0.7;
         }
 
-        .carousel-arrow:hover {
-            opacity: 1;
-            background-color: rgba(0,0,0,0.8);
+        .claims-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
         }
 
-        .carousel-arrow.prev {
-            left: 10px;
+        .claims-table th, .claims-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
         }
 
-        .carousel-arrow.next {
-            right: 10px;
+        .claims-table th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .claims-table tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
 
         /* Media Queries */
-        @media screen and (max-width: 768px) {
-            .header {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-            
-            .carousel-container {
-                order: 3;
-                width: 250px;
-                height: 100px;
-                margin: 10px 0;
-            }
-            
-            #week-number {
-                order: 2;
-            }
-            
-            .logo-container {
-                order: 1;
-            }
-        }
-
         @media screen and (max-width: 600px) {
             .header {
                 justify-content: space-between;
-                flex-wrap: nowrap;
             }
 
             .logo {
@@ -343,21 +287,12 @@
                 grid-column: 1;
             }
 
-            .carousel-container {
-                width: 180px;
-                height: 80px;
-                margin: 0 5px;
-            }
-            
-            .carousel-dot {
-                width: 8px;
-                height: 8px;
-            }
-            
-            .carousel-arrow {
-                width: 25px;
-                height: 25px;
-                font-size: 14px;
+            .days-counter {
+                position: static;
+                margin-top: 10px;
+                text-align: center;
+                width: 100%;
+                border-radius: 0;
             }
         }
 
@@ -372,10 +307,6 @@
                 font-size: 1rem;
                 margin-bottom: 10px;
             }
-            
-            .carousel-container {
-                height: 70px;
-            }
         }
     </style>
 </head>
@@ -384,30 +315,18 @@
     <div class="bubble-container"></div>
 
     <header class="header">
+        <!-- Logo -->
         <div class="logo-container" id="logo">
             <img src="1.png" alt="Logo" class="logo">
-        </div>
-        
-        <div class="carousel-container">
-            <div class="carousel" id="imageCarousel">
-            </div>
-            
-            <!-- Flechas de navegación -->
-            <div class="carousel-arrow prev" id="prevBtn">&#10094;</div>
-            <div class="carousel-arrow next" id="nextBtn">&#10095;</div>
-            
-            <!-- Puntos de navegación -->
-            <div class="carousel-nav" id="carouselNav">
-            </div>
         </div>
         
         <div id="week-number">Semana 50</div>
     </header>
 
-    <!-- Modal para mostrar la imagen -->
+    <!-- Modal para la imagen -->
     <div class="modal" id="imageModal">
         <span class="close-modal">&times;</span>
-        <img src="" alt="Imagen ampliada" class="modal-content" id="modalImage">
+        <img src="jarabe.webp" alt="Imagen" class="modal-content" id="modalImage">
     </div>
 
     <main class="main-content">
@@ -424,7 +343,17 @@
 
     <footer class="footer">
          © 2025 Sitio Web Jarabe. Planta Nixapa 👻.
+         <div class="days-counter" id="daysCounter">Días sin reclamos: calculando...</div>
     </footer>
+
+    <!-- Modal para mostrar reclamos -->
+    <div class="claims-modal" id="claimsModal">
+        <span class="claims-modal-close">&times;</span>
+        <div class="claims-modal-content">
+            <h2>Historial de Reclamos</h2>
+            <div id="claimsModalContent">Cargando reclamos...</div>
+        </div>
+    </div>
 
     <script>
         // Función para obtener la semana actual
@@ -459,6 +388,7 @@
             window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABESCSD';
         });
 
+        // Generar burbujas dinámicamente
         function createBubble() {
             const bubble = document.createElement('span');
             bubble.classList.add('bubble');
@@ -473,162 +403,136 @@
 
         setInterval(createBubble, 500);
 
+        
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
         const logo = document.getElementById('logo');
         const closeModal = document.getElementsByClassName('close-modal')[0];
 
+        
         logo.onclick = function() {
             modal.style.display = 'flex';
-            modalImg.src = 'jarabe2.webp';
         }
 
+    
         closeModal.onclick = function() {
             modal.style.display = 'none';
         }
 
+    
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
         }
 
-        const carouselImages = [
-            {src: 'planta.webp', alt: 'Anuncio 0', title: 'sueño de planta.'},
-            {src: 'best.webp', alt: 'Anuncio 1', title: 'Best'},
-            {src: '2.jpg', alt: 'Anuncio 2', title: 'Club 500'},
-            {src: '3.jpg', alt: 'Anuncio 3', title: 'Suply'},
-            {src: '4.jpg', alt: 'Anuncio 4', title: 'Propósito'},
-            {src: '5.png', alt: 'Anuncio 5', title: 'Los 10 Principios'},
-            {src: 'politica.jpg', alt: 'Anuncio 6', title: 'Politicas Ambientales'},
-            {src: '90.jpg', alt: 'Anuncio 7', title: 'Mantenimiento'}
-        ];
+        // Configuración de Firebase para acceder a los reclamos
+        const firebaseConfig = {
+            apiKey: "AIzaSyAneea8jq-qIoymTG909zP76OjcFx7ufa8",
+            authDomain: "reclamo-39ff3.firebaseapp.com",
+            projectId: "reclamo-39ff3",
+            messagingSenderId: "443679031726",
+            appId: "1:443679031726:web:568838f29089d4fb74483f"
+        };
 
-        const fallbackImages = ['1.png', 'jarabe2.webp', '10.png'];
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        const carousel = document.getElementById('imageCarousel');
-        const carouselNav = document.getElementById('carouselNav');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let currentIndex = 0;
-        let carouselInterval;
+        // Función para calcular días sin reclamos
+        async function calculateDaysWithoutClaims() {
+            try {
+                // Obtener todos los reclamos ordenados por fecha descendente
+                const querySnapshot = await db.collection('quality_claims')
+                    .orderBy('date', 'desc')
+                    .limit(1)
+                    .get();
 
-        carouselImages.forEach((imgData, index) => {
-
-            const imgSrc = imgData.src || fallbackImages[index % fallbackImages.length];
-            const imgAlt = imgData.alt || `Anuncio ${index + 1}`;
-
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            img.alt = imgAlt;
-            img.title = imgData.title || '';
-            img.dataset.index = index;
-            
-
-            img.addEventListener('click', function() {
-                modal.style.display = 'flex';
-                modalImg.src = this.src;
-                modalImg.alt = this.alt;
-                if (this.title) {
-                    modalImg.title = this.title;
+                if (querySnapshot.empty) {
+                    // No hay reclamos registrados
+                    document.getElementById('daysCounter').textContent = "Días sin reclamos: 0";
+                    return;
                 }
-            });
+
+                // Obtener la fecha del último reclamo
+                const lastClaim = querySnapshot.docs[0].data();
+                const lastClaimDate = new Date(lastClaim.date);
+                const today = new Date();
+                
+                // Calcular diferencia en días
+                const diffTime = today - lastClaimDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                // Actualizar el contador
+                document.getElementById('daysCounter').textContent = `Días sin reclamos: ${diffDays}`;
+                
+            } catch (error) {
+                console.error("Error al calcular días sin reclamos:", error);
+                document.getElementById('daysCounter').textContent = "Días sin reclamos: error";
+            }
+        }
+
+        // Función para cargar y mostrar todos los reclamos en el modal
+        async function loadAllClaims() {
+            const modalContent = document.getElementById('claimsModalContent');
+            modalContent.innerHTML = '<p>Cargando reclamos...</p>';
             
-            carousel.appendChild(img);
+            try {
+                const querySnapshot = await db.collection('quality_claims')
+                    .orderBy('date', 'desc')
+                    .get();
 
-            const dot = document.createElement('div');
-            dot.classList.add('carousel-dot');
-            if (index === 0) dot.classList.add('active');
-            dot.dataset.index = index;
-            dot.addEventListener('click', function() {
-                goToSlide(parseInt(this.dataset.index));
-                resetInterval();
-            });
-            carouselNav.appendChild(dot);
-        });
-
-        function goToSlide(index) {
-            currentIndex = (index + carouselImages.length) % carouselImages.length;
-            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                if (i === currentIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
+                if (querySnapshot.empty) {
+                    modalContent.innerHTML = '<p>No hay reclamos registrados.</p>';
+                    return;
                 }
-            });
+
+                let html = '<table class="claims-table">';
+                html += '<tr><th>Fecha</th><th>Área/Línea</th><th>Tipo</th><th>Descripción</th><th>Estado</th></tr>';
+                
+                querySnapshot.forEach(doc => {
+                    const claim = doc.data();
+                    html += `
+                        <tr>
+                            <td>${claim.date}</td>
+                            <td>${claim.lines}</td>
+                            <td>${claim.type}</td>
+                            <td>${claim.reason}</td>
+                            <td>${claim.status}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</table>';
+                modalContent.innerHTML = html;
+                
+            } catch (error) {
+                console.error("Error al cargar reclamos:", error);
+                modalContent.innerHTML = '<p>Error al cargar reclamos.</p>';
+            }
         }
 
-        function nextSlide() {
-            goToSlide(currentIndex + 1);
-        }
-
-        function prevSlide() {
-            goToSlide(currentIndex - 1);
-        }
-
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            resetInterval();
+        // Mostrar modal de reclamos al hacer clic en el contador
+        document.getElementById('daysCounter').addEventListener('click', () => {
+            loadAllClaims();
+            document.getElementById('claimsModal').style.display = 'flex';
         });
 
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            resetInterval();
+        // Cerrar modal de reclamos
+        document.querySelector('.claims-modal-close').addEventListener('click', () => {
+            document.getElementById('claimsModal').style.display = 'none';
         });
 
-        function startInterval() {
-            carouselInterval = setInterval(() => {
-                nextSlide();
-            }, 5000); // Cambia cada 5 segundos
-        }
-
-
-        function resetInterval() {
-            clearInterval(carouselInterval);
-            startInterval();
-        }
-
-
-        startInterval();
-
-
-        carousel.addEventListener('mouseenter', () => {
-            clearInterval(carouselInterval);
-        });
-
-
-        carousel.addEventListener('mouseleave', () => {
-            startInterval();
-        });
-
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') {
-                nextSlide();
-                resetInterval();
-            } else if (e.key === 'ArrowLeft') {
-                prevSlide();
-                resetInterval();
+        // Cerrar modal al hacer clic fuera del contenido
+        window.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('claimsModal')) {
+                document.getElementById('claimsModal').style.display = 'none';
             }
         });
 
-
-        window.addEventListener('load', () => {
-
-            carouselImages.forEach(imgData => {
-                const img = new Image();
-                img.src = imgData.src || fallbackImages[0];
-            });
-            
-
-            const logoImg = new Image();
-            logoImg.src = '1.png';
-            
-            const jarabeImg = new Image();
-            jarabeImg.src = 'jarabe2.webp';
-        });
+        // Calcular días sin reclamos al cargar la página y cada 12 horas
+        calculateDaysWithoutClaims();
+        setInterval(calculateDaysWithoutClaims, 12 * 60 * 60 * 1000);
     </script>
 </body>
 </html>
