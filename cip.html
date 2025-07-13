@@ -52,7 +52,7 @@
             text-align: center;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            -webkit-text-stroke: 0.5px black; /* borde negro para las letras */
+            -webkit-text-stroke: 0.5px black;
         }
         
         .button-container {
@@ -118,7 +118,7 @@
             background-color: darkred;
         }
 
-        /* Media Queries para responsividad */
+
         @media screen and (max-width: 600px) {
             .header {
                 flex-direction: column;
@@ -186,7 +186,7 @@
     </footer>
 
     <script>
-        // Actualizar el número de semana
+  
         function getWeekNumber(d) {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -197,7 +197,7 @@
 
         document.getElementById('week-number').textContent = `Semana ${getWeekNumber(new Date())}`;
 
-        // Redirección al hacer clic en los botones
+
         document.getElementById('tqsaneado').addEventListener('click', () => {
             window.location.href = 'https://cijarabe2.web.app';
         });
@@ -225,10 +225,9 @@
             window.location.href = 'https://mazsupplyapps.ab-inbev.com/mangyver';
         });
         document.getElementById('seguridadterritorial').addEventListener('click', () => {
-            window.location.href = 'https://forms.office.com/pages/responsepage.aspx?id=GUvwznZ3lEq4mzdcd6j5NhH4iqaDy6VNmN5Wz-1sic9URFFMQTNYTDBKMThOVTE1S0RRM09QNVJUUCQlQCN0PWcu';
+            window.location.href = 'https://seguridadterritorial-64f0f.web.app/';
         });
 
-        // Redirección al botón de Menú
         document.getElementById('menu-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
