@@ -180,6 +180,7 @@
             <button class="button" id="mangyver">Mangyver</button>
             <button class="button" id="patrones">Muestra De Patrones</button>
             <button class="button" id="seguridad">Seguridad</button>
+            <button class="button bottom-button" id="sensory">SensoryOne</button>
         </div>
     </main>
 
@@ -188,7 +189,7 @@
     </footer>
 
     <script>
-        // Actualizar el número de semana
+
         function getWeekNumber(d) {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -199,7 +200,7 @@
 
         document.getElementById('week-number').textContent = `Semana ${getWeekNumber(new Date())}`;
 
-        // Redirección al hacer clic en los botones
+    
         document.getElementById('agua').addEventListener('click', () => {
             window.location.href = 'https://jarabeterminado.web.app/';
         });
@@ -217,7 +218,7 @@
         });
 
         document.getElementById('seguridadterritorial').addEventListener('click', () => {
-            window.location.href = 'https://forms.office.com/pages/responsepage.aspx?id=GUvwznZ3lEq4mzdcd6j5NhH4iqaDy6VNmN5Wz-1sic9URFFMQTNYTDBKMThOVTE1S0RRM09QNVJUUCQlQCN0PWcu';
+            window.location.href = 'https://seguridadterritorial-64f0f.web.app/';
         });
 
         document.getElementById('inbev').addEventListener('click', () => {
@@ -237,7 +238,10 @@
         document.getElementById('seguridad').addEventListener('click', () => {
             window.location.href = 'https://seguridad-ae995.web.app/';
         });
-        // Redirección al botón de Menú
+        document.getElementById('sensory').addEventListener('click', () => {
+            window.location.href = 'https://sensoryone.ab-inbev.com/';
+        });
+        
         document.getElementById('menu-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
