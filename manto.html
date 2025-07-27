@@ -211,6 +211,7 @@
             <button class="button" id="sharepoint">Sharepoint De Mantenimiento.</button>
             <button class="button" id="ato">ATO</button>
             <button class="button" id="cambio">Tablero De Cambio De Turno</button>
+            <button class="button bottom-button" id="guardian">Guardian</button>
         </div>
     </main>
 
@@ -259,6 +260,11 @@
         document.getElementById('cambio').addEventListener('click', () => {
             window.location.href = 'https://anheuserbuschinbev.sharepoint.com/:x:/r/sites/JARABECENTRODEVALVULASYBOMBAS/_layouts/15/Doc.aspx?sourcedoc=%7BC0C96BEA-D0AD-4C90-BC53-4D51EAC2FEFB%7D&file=TABLERO%20DE%20CAMBIO%20DE%20TURNO%202025%20BYV.xlsx&action=default&mobileredirect=true';
         });
+
+        document.getElementById('guardian').addEventListener('click', () => {
+            window.location.href = 'https://guardian.ab-inbev.com/';
+        });
+        
         document.getElementById('menu-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
