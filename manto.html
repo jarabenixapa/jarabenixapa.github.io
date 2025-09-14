@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Mantenimiento</title>
+    <title>Menú de Mantenimiento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             box-sizing: border-box;
@@ -16,23 +17,25 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
-            background-image: url('mtto.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('mtto.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            color: #333;
+            color: #fff;
         }
         
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            background-color: transparent;
+            padding: 15px 30px;
+            background-color: rgba(0, 0, 0, 0.6);
             color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
         
         .main-content {
@@ -41,177 +44,439 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 30px 20px;
             width: 100%;
         }
         
         .question {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
             color: white;
             text-align: center;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            -webkit-text-stroke: 0.5px black;
-        }
-        
-        .button-container {
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+            background: linear-gradient(to right, #ff7e00, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 10px 20px;
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .tools-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr auto 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 25px;
             width: 100%;
-            max-width: 400px;
+            max-width: 1000px;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
         }
         
-        .button {
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            background-color: rgba(0,0,0,0.5);
-            width: 100%;
-        }
-        
-        .button:hover {
-            transform: scale(1.05);
-            background-color: darkred;
-        }
-        
-        .password-container {
-            display: none;
+        .tool-item {
+            display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
+            justify-content: center;
+            transition: transform 0.3s ease;
         }
-
-        .password-container input {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
+        
+        .tool-item:hover {
+            transform: translateY(-10px);
         }
-
-        .password-container button {
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+        
+        .tool-button {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ffaa00;
+            background: linear-gradient(145deg, #2c3e50, #1a2530);
+            position: relative;
+            overflow: hidden;
         }
-
-        .password-container button:hover {
-            transform: scale(1.05);
+        
+        .tool-button::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff7e00, #ffaa00, #ff7e00);
+            z-index: -1;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tool-button:hover::before {
+            opacity: 1;
+        }
+        
+        .tool-button:hover {
+            transform: scale(1.1);
+            border-color: #fff;
+            box-shadow: 0 0 20px #ffaa00;
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            color: #ffaa00;
+            transition: color 0.3s ease;
+        }
+        
+        .tool-button:hover .tool-icon {
+            color: white;
+            animation: bounce 0.5s ease;
+        }
+        
+        .tool-label {
+            color: white;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            font-weight: 500;
             background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .bottom-button {
-            grid-column: 1 / span 2;
-            justify-self: center;
+            padding: 5px 10px;
+            border-radius: 10px;
+            width: 100%;
         }
         
         .footer {
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.7);
             color: white;
             text-align: center;
-            padding: 15px;
+            padding: 20px;
             width: 100%;
+            margin-top: auto;
+            font-size: 1rem;
         }
 
         #week-number {
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffaa00;
         }
 
         .menu-button {
-            background-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(to right, #ff7e00, #ffaa00);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 25px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .menu-button:hover {
             transform: scale(1.05);
-            background-color: darkred;
+            box-shadow: 0 0 15px #ffaa00;
         }
 
-        @media screen and (max-width: 600px) {
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .tools-container {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 600px;
+            }
+        }
+
+        @media screen and (max-width: 650px) {
+            .tools-container {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 400px;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .tool-button {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .tool-icon {
+                font-size: 2rem;
+            }
+            
+            .question {
+                font-size: 1.8rem;
+            }
+            
             .header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-
-            .question {
-                font-size: 1.2rem;
-            }
-
-            .button-container {
-                max-width: 250px;
-                grid-template-columns: 1fr;
-                grid-template-rows: repeat(3, auto);
-            }
-
-            .button {
-                font-size: 0.9rem;
-                padding: 10px 20px;
-            }
-
-            .bottom-button {
-                grid-column: 1;
+                padding: 15px;
             }
         }
 
-        @media screen and (max-height: 500px) {
-            .button-container {
-                max-width: 200px;
+        @media screen and (max-width: 450px) {
+            .tools-container {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 320px;
+                gap: 15px;
                 padding: 15px;
-                gap: 10px;
             }
-
+            
+            .tool-button {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .tool-icon {
+                font-size: 1.8rem;
+            }
+            
+            .tool-label {
+                font-size: 0.8rem;
+            }
+            
             .question {
-                font-size: 1rem;
-                margin-bottom: 10px;
+                font-size: 1.5rem;
             }
+        }
+        
+        .custom-icon {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .shield-cross {
+            position: relative;
+            width: 40px;
+            height: 45px;
+            background-color: #ffaa00;
+            border-radius: 8px 8px 4px 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .shield-cross::before {
+            content: '+';
+            position: absolute;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .notebook-pencil {
+            position: relative;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .notebook {
+            position: absolute;
+            width: 35px;
+            height: 40px;
+            background-color: #ffaa00;
+            border-radius: 4px;
+        }
+        
+        .pencil {
+            position: absolute;
+            width: 20px;
+            height: 5px;
+            background-color: #ffdd00;
+            transform: rotate(45deg);
+            top: 20px;
+            left: 20px;
+        }
+        
+        .house {
+            position: relative;
+            width: 40px;
+            height: 35px;
+        }
+        
+        .house-body {
+            position: absolute;
+            width: 35px;
+            height: 25px;
+            background-color: #ffaa00;
+            bottom: 0;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .house-roof {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 15px solid #ffaa00;
+            top: 0;
+            left: 0;
+        }
+        
+        .house-door {
+            position: absolute;
+            width: 10px;
+            height: 12px;
+            background-color: #ffdd00;
+            bottom: 0;
+            left: 13px;
+            border-radius: 2px 2px 0 0;
+        }
+        
+        .nuts {
+            position: relative;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .nut {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ffaa00;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .nut::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #1a2530;
+            border-radius: 50%;
+        }
+        
+        .nut-1 {
+            top: 0;
+            left: 0;
+        }
+        
+        .nut-2 {
+            bottom: 0;
+            right: 0;
+        }
+        
+        .book {
+            position: relative;
+            width: 35px;
+            height: 40px;
+            background-color: #ffaa00;
+            border-radius: 4px 8px 8px 4px;
+        }
+        
+        .book::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 25px;
+            height: 30px;
+            background-color: #ffdd00;
+            border-radius: 2px 6px 6px 2px;
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div id="week-number">Semana 50</div>
-        <button class="menu-button" id="menu-btn">Menú</button>
+        <button class="menu-button" id="menu-btn">Menú Principal</button>
     </header>
 
     <main class="main-content">
-        <div class="question">Mantenimiento.</div>
+        <div class="question">Mantenimiento</div>
         
-        <div class="button-container">
-            <button class="button" id="mangyver">Mangyver</button>
-            <button class="button" id="seguridadterritorial">Seguridad Territorial</button>
-            <button class="button" id="acadia">Acadia</button>
-            <button class="button" id="rutinas">InteractionLog</button>
-            <button class="button" id="autonomo">Autónomo</button>
-            <button class="button" id="sharepoint">Sharepoint De Mantenimiento.</button>
-            <button class="button" id="ato">ATO</button>
-            <button class="button" id="cambio">Tablero De Cambio De Turno</button>
-            <button class="button bottom-button" id="guardian">Guardian</button>
+        <div class="tools-container">
+            <div class="tool-item">
+                <button class="tool-button" id="mangyver">
+                    <i class="tool-icon fas fa-tools"></i>
+                </button>
+                <div class="tool-label">Mangyver</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="seguridadterritorial">
+                    <i class="tool-icon fas fa-shield-alt"></i>
+                </button>
+                <div class="tool-label">Seguridad Territorial</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="acadia">
+                    <div class="custom-icon book"></div>
+                </button>
+                <div class="tool-label">Acadia</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="rutinas">
+                    <i class="tool-icon fas fa-clipboard-list"></i>
+                </button>
+                <div class="tool-label">InteractionLog</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="autonomo">
+                    <div class="custom-icon notebook-pencil">
+                        <div class="notebook"></div>
+                        <div class="pencil"></div>
+                    </div>
+                </button>
+                <div class="tool-label">Autónomo</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="sharepoint">
+                    <div class="custom-icon house">
+                        <div class="house-roof"></div>
+                        <div class="house-body"></div>
+                        <div class="house-door"></div>
+                    </div>
+                </button>
+                <div class="tool-label">Sharepoint de mantenimiento</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="ato">
+                    <div class="custom-icon nuts">
+                        <div class="nut nut-1"></div>
+                        <div class="nut nut-2"></div>
+                    </div>
+                </button>
+                <div class="tool-label">Nivel ATO</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="cambio">
+                    <i class="tool-icon fas fa-sync-alt"></i>
+                </button>
+                <div class="tool-label">Cambio de Turno</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="guardian">
+                    <div class="custom-icon shield-cross"></div>
+                </button>
+                <div class="tool-label">Guardian</div>
+            </div>
+            
+            <div class="tool-item">
+                <button class="tool-button" id="reporte">
+                    <i class="tool-icon fas fa-wrench"></i>
+                </button>
+                <div class="tool-label">Reporte de sellos</div>
+            </div>
         </div>
     </main>
 
@@ -265,10 +530,13 @@
             window.location.href = 'https://guardian.ab-inbev.com/';
         });
         
+        document.getElementById('reporte').addEventListener('click', () => {
+            window.location.href = 'https://mantenimiento-1dba9.web.app/';
+        });
+        
         document.getElementById('menu-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
     </script>
 </body>
 </html>
-
