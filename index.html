@@ -22,7 +22,7 @@
             font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
-            background-image: url('img/110.png');
+            background-image: url('fondococacola2.svg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -30,7 +30,6 @@
             position: relative;
         }
 
-        /* Contenedor de burbujas */
         .bubble-container {
             position: absolute;
             top: 0;
@@ -41,16 +40,16 @@
             z-index: -1;
         }
 
-        /* Estilos de las burbujas */
         .bubble {
             position: absolute;
             bottom: -50px;
             width: 10px;
             height: 10px;
-            background-color: rgba(255, 255, 255, 0.993);
+            background-color: rgba(170, 0, 0, 0.8);
             border-radius: 50%;
-            opacity: 0.6-0.8;
+            opacity: 0.6;
             animation: rise 6s infinite linear;
+            box-shadow: 0 0 10px rgba(170, 0, 0, 0.7);
         }
 
         @keyframes rise {
@@ -69,7 +68,7 @@
 
         .header {
             display: flex;
-            justify-content: space-between; /* Cambiado para espacio entre logo y semana */
+            justify-content: space-between;
             align-items: center;
             padding: 15px;
             background-color: transparent;
@@ -90,7 +89,6 @@
             transform: scale(1.05);
         }
 
-        /* Estilos del modal */
         .modal {
             display: none;
             position: fixed;
@@ -139,11 +137,11 @@
         }
 
         .button-container {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0);
             backdrop-filter: blur(10px);
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
@@ -158,14 +156,40 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            background-color: rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            background-color: rgba(82, 1, 1, 0.322);
             width: 100%;
+            position: relative;
+            overflow: hidden;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .button:hover {
-            transform: scale(1.05);
-            background-color: rgb(16, 0, 163);
+        .button-text {
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .button:hover .button-text {
+            opacity: 0;
+        }
+
+        .button-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .button:hover .button-image {
+            opacity: 1;
         }
 
         .bottom-button {
@@ -186,7 +210,6 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* Contador de días sin reclamos */
         .days-counter {
             position: absolute;
             bottom: 10px;
@@ -204,7 +227,6 @@
             transform: scale(1.05);
         }
 
-        /* Modal para mostrar reclamos */
         .claims-modal {
             display: none;
             position: fixed;
@@ -259,7 +281,6 @@
             background-color: #f2f2f2;
         }
 
-        /* Media Queries */
         @media screen and (max-width: 600px) {
             .header {
                 justify-content: space-between;
@@ -281,6 +302,7 @@
             .button {
                 font-size: 0.9rem;
                 padding: 10px 20px;
+                height: 50px;
             }
 
             .bottom-button {
@@ -311,11 +333,9 @@
     </style>
 </head>
 <body>
-    <!-- Contenedor de burbujas -->
     <div class="bubble-container"></div>
 
     <header class="header">
-        <!-- Logo -->
         <div class="logo-container" id="logo">
             <img src="1.png" alt="Logo" class="logo">
         </div>
@@ -323,7 +343,6 @@
         <div id="week-number">Semana 50</div>
     </header>
 
-    <!-- Modal para la imagen -->
     <div class="modal" id="imageModal">
         <span class="close-modal">&times;</span>
         <img src="jarabe.webp" alt="Imagen" class="modal-content" id="modalImage">
@@ -333,11 +352,26 @@
         <div class="question">Bienvenidos......</div>
         
         <div class="button-container">
-            <button class="button" id="jarabeTerminado">Jarabe Terminado</button>
-            <button class="button" id="jarabeSimple">Jarabe Simple</button>
-            <button class="button" id="cip">CIP</button>
-            <button class="button" id="mantenimiento">Mantenimiento</button>
-            <button class="button bottom-button" id="sharepoint">¿Quieres volver al sharepoint?</button>
+            <button class="button" id="jarabeTerminado">
+                <span class="button-text">Jarabe Terminado</span>
+                <img class="button-image" src="https://tse4.mm.bing.net/th/id/OIP.Y8PPGi4Ae4A1wsi5w-nmSgHaEK?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Jarabe Terminado">
+            </button>
+            <button class="button" id="jarabeSimple">
+                <span class="button-text">Jarabe Simple</span>
+                <img class="button-image" src="https://www.ofuxico.com.br/wp-content/uploads/2021/12/Harry-Potter-foto.jpg" alt="Jarabe Simple">
+            </button>
+            <button class="button" id="cip">
+                <span class="button-text">CIP</span>
+                <img class="button-image" src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2024/09/scream-franchise.jpg" alt="CIP">
+            </button>
+            <button class="button" id="mantenimiento">
+                <span class="button-text">Mantenimiento</span>
+                <img class="button-image" src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/05/freddy-krueger-nightmare-on-elm-street.jpg" alt="Mantenimiento">
+            </button>
+            <button class="button bottom-button" id="sharepoint">
+                <span class="button-text">¿Quieres volver al sharepoint?</span>
+                <img class="button-image" src="https://th.bing.com/th/id/OIP.6ZWwNW-rekBnmI-kF-Mn1wHaEK?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="SharePoint">
+            </button>
         </div>
     </main>
 
@@ -346,7 +380,6 @@
          <div class="days-counter" id="daysCounter">Días sin reclamos: calculando...</div>
     </footer>
 
-    <!-- Modal para mostrar reclamos -->
     <div class="claims-modal" id="claimsModal">
         <span class="claims-modal-close">&times;</span>
         <div class="claims-modal-content">
@@ -356,7 +389,6 @@
     </div>
 
     <script>
-        // Función para obtener la semana actual
         function getWeekNumber(d) {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -367,7 +399,6 @@
 
         document.getElementById('week-number').textContent = `Semana ${getWeekNumber(new Date())}`;
 
-        // Redirección al hacer clic en los botones
         document.getElementById('jarabeTerminado').addEventListener('click', () => {
             window.location.href = 'jarter.html';
         });
@@ -388,7 +419,6 @@
             window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABESCSD';
         });
 
-        // Generar burbujas dinámicamente
         function createBubble() {
             const bubble = document.createElement('span');
             bubble.classList.add('bubble');
@@ -403,30 +433,25 @@
 
         setInterval(createBubble, 500);
 
-        
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
         const logo = document.getElementById('logo');
         const closeModal = document.getElementsByClassName('close-modal')[0];
 
-        
         logo.onclick = function() {
             modal.style.display = 'flex';
         }
 
-    
         closeModal.onclick = function() {
             modal.style.display = 'none';
         }
 
-    
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
         }
 
-        // Configuración de Firebase para acceder a los reclamos
         const firebaseConfig = {
             apiKey: "AIzaSyAneea8jq-qIoymTG909zP76OjcFx7ufa8",
             authDomain: "reclamo-39ff3.firebaseapp.com",
@@ -435,35 +460,28 @@
             appId: "1:443679031726:web:568838f29089d4fb74483f"
         };
 
-        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Función para calcular días sin reclamos
         async function calculateDaysWithoutClaims() {
             try {
-                // Obtener todos los reclamos ordenados por fecha descendente
                 const querySnapshot = await db.collection('quality_claims')
                     .orderBy('date', 'desc')
                     .limit(1)
                     .get();
 
                 if (querySnapshot.empty) {
-                    // No hay reclamos registrados
                     document.getElementById('daysCounter').textContent = "Días sin reclamos: 0";
                     return;
                 }
 
-                // Obtener la fecha del último reclamo
                 const lastClaim = querySnapshot.docs[0].data();
                 const lastClaimDate = new Date(lastClaim.date);
                 const today = new Date();
                 
-                // Calcular diferencia en días
                 const diffTime = today - lastClaimDate;
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
                 
-                // Actualizar el contador
                 document.getElementById('daysCounter').textContent = `Días sin reclamos: ${diffDays}`;
                 
             } catch (error) {
@@ -472,7 +490,6 @@
             }
         }
 
-        // Función para cargar y mostrar todos los reclamos en el modal
         async function loadAllClaims() {
             const modalContent = document.getElementById('claimsModalContent');
             modalContent.innerHTML = '<p>Cargando reclamos...</p>';
@@ -512,25 +529,21 @@
             }
         }
 
-        // Mostrar modal de reclamos al hacer clic en el contador
         document.getElementById('daysCounter').addEventListener('click', () => {
             loadAllClaims();
             document.getElementById('claimsModal').style.display = 'flex';
         });
 
-        // Cerrar modal de reclamos
         document.querySelector('.claims-modal-close').addEventListener('click', () => {
             document.getElementById('claimsModal').style.display = 'none';
         });
 
-        // Cerrar modal al hacer clic fuera del contenido
         window.addEventListener('click', (event) => {
             if (event.target === document.getElementById('claimsModal')) {
                 document.getElementById('claimsModal').style.display = 'none';
             }
         });
 
-        // Calcular días sin reclamos al cargar la página y cada 12 horas
         calculateDaysWithoutClaims();
         setInterval(calculateDaysWithoutClaims, 12 * 60 * 60 * 1000);
     </script>
