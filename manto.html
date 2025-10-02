@@ -263,6 +263,14 @@
                 <img src="r.png" alt="Reporte de sellos" class="tool-image">
                 <div class="tool-label">Reporte de sellos</div>
             </div>
+            <div class="tool-item" id="Repuestos">
+                <img src="re.png" alt="Repuestos" class="tool-image">
+                <div class="tool-label">Repuestos</div>
+            </div>
+            <div class="tool-item" id="Costos">
+                <img src="costos.png" alt="Costos" class="tool-image">
+                <div class="tool-label">Costos</div>
+            </div>
         </div>
     </main>
 
@@ -281,7 +289,7 @@
 
         document.getElementById('week-number').textContent = `Semana ${getWeekNumber(new Date())}`;
 
-        // Agregar event listeners a cada herramienta
+        // Agregar Link para cada botonera
         document.getElementById('mangyver').addEventListener('click', () => {
             window.location.href = 'https://mazsupplyapps.ab-inbev.com/mangyver';
         });
@@ -319,6 +327,14 @@
 
         document.getElementById('sellos').addEventListener('click', () => {
             window.location.href = 'https://mantenimiento-1dba9.web.app/';
+        });
+
+        document.getElementById('Repuestos').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABESCSD/Archivos%20ETO/Forms/AllItems.aspx?id=%2Fsites%2FJARABESCSD%2FArchivos%20ETO%2FMANTENIMIENTO%2FATO%20REPUESTOS&viewid=0ab03584%2D2910%2D4957%2D9d8a%2Dc14493b3797e';
+        });
+
+        document.getElementById('Costos').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/:x:/r/sites/JARABECENTRODEVALVULASYBOMBAS/_layouts/15/Doc.aspx?sourcedoc=%7B39890654-97EA-4E79-A3EB-517C86F52B07%7D&file=Resumen%20indicadores%20bombas%20y%20valvulas.xlsx&action=default&mobileredirect=true';
         });
         
         document.getElementById('menu-btn').addEventListener('click', () => {
