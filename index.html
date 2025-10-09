@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -89,96 +90,6 @@
             transform: scale(1.05);
         }
 
-        .carousel-container {
-            position: relative;
-            width: 300px;
-            height: 120px;
-            margin: 0 15px;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            background-color: rgba(0,0,0,0.3);
-        }
-
-        .carousel {
-            display: flex;
-            transition: transform 0.6s ease-in-out;
-            height: 100%;
-        }
-
-        .carousel img {
-            min-width: 100%;
-            height: 100%;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .carousel img:hover {
-            transform: scale(1.03);
-        }
-
-        .carousel-nav {
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .carousel-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.6);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.3);
-        }
-
-        .carousel-dot:hover {
-            background-color: rgba(255,255,255,0.9);
-        }
-
-        .carousel-dot.active {
-            background-color: white;
-            transform: scale(1.2);
-        }
-
-        .carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 30px;
-            height: 30px;
-            background-color: rgba(0,0,0,0.5);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            z-index: 10;
-            transition: all 0.3s ease;
-            opacity: 0.7;
-        }
-
-        .carousel-arrow:hover {
-            opacity: 1;
-            background-color: rgba(0,0,0,0.8);
-        }
-
-        .carousel-arrow.prev {
-            left: 10px;
-        }
-
-        .carousel-arrow.next {
-            right: 10px;
-        }
-
         .modal {
             display: none;
             position: fixed;
@@ -186,7 +97,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -195,8 +106,6 @@
         .modal-content {
             max-width: 90%;
             max-height: 90%;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
 
         .close-modal {
@@ -204,13 +113,8 @@
             top: 20px;
             right: 30px;
             color: white;
-            font-size: 40px;
+            font-size: 30px;
             cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-modal:hover {
-            color: #ff0000;
         }
 
         .main-content {
@@ -378,33 +282,9 @@
             background-color: #f2f2f2;
         }
 
-        @media screen and (max-width: 768px) {
-            .header {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-            
-            .carousel-container {
-                order: 3;
-                width: 250px;
-                height: 100px;
-                margin: 10px 0;
-            }
-            
-            #week-number {
-                order: 2;
-            }
-            
-            .logo-container {
-                order: 1;
-            }
-        }
-
         @media screen and (max-width: 600px) {
             .header {
                 justify-content: space-between;
-                flex-wrap: nowrap;
             }
 
             .logo {
@@ -430,28 +310,12 @@
                 grid-column: 1;
             }
 
-            .carousel-container {
-                width: 180px;
-                height: 80px;
-                margin: 0 5px;
-            }
-            
-            .carousel-dot {
-                width: 8px;
-                height: 8px;
-            }
-            
-            .carousel-arrow {
-                width: 25px;
-                height: 25px;
-                font-size: 14px;
-            }
-
             .days-counter {
                 position: static;
                 margin-top: 10px;
-                display: inline-block;
-                width: auto;
+                text-align: center;
+                width: 100%;
+                border-radius: 0;
             }
         }
 
@@ -466,10 +330,6 @@
                 font-size: 1rem;
                 margin-bottom: 10px;
             }
-            
-            .carousel-container {
-                height: 70px;
-            }
         }
     </style>
 </head>
@@ -479,17 +339,6 @@
     <header class="header">
         <div class="logo-container" id="logo">
             <img src="1.png" alt="Logo" class="logo">
-        </div>
-        
-        <div class="carousel-container">
-            <div class="carousel" id="imageCarousel">
-            </div>
-            
-            <div class="carousel-arrow prev" id="prevBtn">&#10094;</div>
-            <div class="carousel-arrow next" id="nextBtn">&#10095;</div>
-            
-            <div class="carousel-nav" id="carouselNav">
-            </div>
         </div>
         
         <div id="week-number">Semana 50</div>
@@ -604,122 +453,6 @@
             }
         }
 
-        const carouselImages = [
-            {src: 'planta.webp', alt: 'Anuncio 0', title: 'sueño de planta.'},
-            {src: 'best.webp', alt: 'Anuncio 1', title: 'Best'},
-            {src: 'sue.png', alt: 'Anuncio 2', title: 'Sueño 2025'},
-            {src: 'club.jpg', alt: 'Anuncio 3', title: 'Club 500'},
-            {src: 'linea4.png', alt: 'Anuncio 4', title: 'LTI'},
-            {src: 'logistica.png', alt: 'Anuncio 5', title: 'FAI'},
-            {src: '5.png', alt: 'Anuncio 6', title: 'Los 10 Principios'},
-            {src: '90.jpg', alt: 'Anuncio 7', title: 'Mantenimiento'},
-            {src: 'fondo.jpg', alt: 'Anuncio 8', title: 'Semana de calidad'},
-            {src: 'medioambiente.png', alt: 'Anuncio 9', title: 'Medio Ambiente'}
-        ];
-
-        const fallbackImages = ['1.png', 'jarabe2.webp', '10.png'];
-
-        const carousel = document.getElementById('imageCarousel');
-        const carouselNav = document.getElementById('carouselNav');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        let currentIndex = 0;
-        let carouselInterval;
-
-        carouselImages.forEach((imgData, index) => {
-            const imgSrc = imgData.src || fallbackImages[index % fallbackImages.length];
-            const imgAlt = imgData.alt || `Anuncio ${index + 1}`;
-
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            img.alt = imgAlt;
-            img.title = imgData.title || '';
-            img.dataset.index = index;
-            
-            img.addEventListener('click', function() {
-                modal.style.display = 'flex';
-                modalImg.src = this.src;
-                modalImg.alt = this.alt;
-                if (this.title) {
-                    modalImg.title = this.title;
-                }
-            });
-            
-            carousel.appendChild(img);
-
-            const dot = document.createElement('div');
-            dot.classList.add('carousel-dot');
-            if (index === 0) dot.classList.add('active');
-            dot.dataset.index = index;
-            dot.addEventListener('click', function() {
-                goToSlide(parseInt(this.dataset.index));
-                resetInterval();
-            });
-            carouselNav.appendChild(dot);
-        });
-
-        function goToSlide(index) {
-            currentIndex = (index + carouselImages.length) % carouselImages.length;
-            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                if (i === currentIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        function nextSlide() {
-            goToSlide(currentIndex + 1);
-        }
-
-        function prevSlide() {
-            goToSlide(currentIndex - 1);
-        }
-
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            resetInterval();
-        });
-
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            resetInterval();
-        });
-
-        function startInterval() {
-            carouselInterval = setInterval(() => {
-                nextSlide();
-            }, 5000);
-        }
-
-        function resetInterval() {
-            clearInterval(carouselInterval);
-            startInterval();
-        }
-
-        startInterval();
-
-        carousel.addEventListener('mouseenter', () => {
-            clearInterval(carouselInterval);
-        });
-
-        carousel.addEventListener('mouseleave', () => {
-            startInterval();
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') {
-                nextSlide();
-                resetInterval();
-            } else if (e.key === 'ArrowLeft') {
-                prevSlide();
-                resetInterval();
-            }
-        });
-
         const firebaseConfig = {
             apiKey: "AIzaSyAneea8jq-qIoymTG909zP76OjcFx7ufa8",
             authDomain: "reclamo-39ff3.firebaseapp.com",
@@ -817,7 +550,3 @@
     </script>
 </body>
 </html>
-
-
-
-
