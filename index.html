@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -205,6 +204,9 @@
             padding: 15px;
             width: 100%;
             position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         #week-number {
@@ -212,9 +214,6 @@
         }
 
         .days-counter {
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
             background-color: rgba(0, 0, 0, 0.7);
             padding: 5px 15px;
             border-radius: 20px;
@@ -226,6 +225,23 @@
         .days-counter:hover {
             background-color: rgba(0, 0, 0, 0.9);
             transform: scale(1.05);
+        }
+
+        .emergency-number {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .emergency-number:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+            text-shadow: 0 0 15px rgba(255,255,255,0.8);
         }
 
         .claims-modal {
@@ -241,7 +257,20 @@
             align-items: center;
         }
 
-        .claims-modal-content {
+        .emergency-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .claims-modal-content, .emergency-modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -252,7 +281,7 @@
             color: #333;
         }
 
-        .claims-modal-close {
+        .claims-modal-close, .emergency-modal-close {
             position: absolute;
             top: 20px;
             right: 30px;
@@ -280,6 +309,13 @@
 
         .claims-table tr:nth-child(even) {
             background-color: #f2f2f2;
+        }
+
+        .emergency-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
         @media screen and (max-width: 600px) {
@@ -310,9 +346,14 @@
                 grid-column: 1;
             }
 
-            .days-counter {
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .days-counter, .emergency-number {
                 position: static;
-                margin-top: 10px;
+                margin-top: 0;
                 text-align: center;
                 width: 100%;
                 border-radius: 0;
@@ -377,8 +418,9 @@
     </main>
 
     <footer class="footer">
-         © 2025 Sitio Web Jarabe. Planta Nixapa 👻.
-         <div class="days-counter" id="daysCounter">Días sin reclamos: calculando...</div>
+        <div class="emergency-number" id="emergencyNumber">Número de emergencia</div>
+        <div>© 2025 Sitio Web Jarabe. Planta Nixapa 👻.</div>
+        <div class="days-counter" id="daysCounter">Días sin reclamos: calculando...</div>
     </footer>
 
     <div class="claims-modal" id="claimsModal">
@@ -386,6 +428,14 @@
         <div class="claims-modal-content">
             <h2>Historial de Reclamos</h2>
             <div id="claimsModalContent">Cargando reclamos...</div>
+        </div>
+    </div>
+
+    <div class="emergency-modal" id="emergencyModal">
+        <span class="emergency-modal-close">&times;</span>
+        <div class="emergency-modal-content">
+            <h2>Número de Emergencia</h2>
+            <img src="123.png" alt="Número de Emergencia" class="emergency-image" id="emergencyImage">
         </div>
     </div>
 
@@ -539,9 +589,20 @@
             document.getElementById('claimsModal').style.display = 'none';
         });
 
+        document.getElementById('emergencyNumber').addEventListener('click', () => {
+            document.getElementById('emergencyModal').style.display = 'flex';
+        });
+
+        document.querySelector('.emergency-modal-close').addEventListener('click', () => {
+            document.getElementById('emergencyModal').style.display = 'none';
+        });
+
         window.addEventListener('click', (event) => {
             if (event.target === document.getElementById('claimsModal')) {
                 document.getElementById('claimsModal').style.display = 'none';
+            }
+            if (event.target === document.getElementById('emergencyModal')) {
+                document.getElementById('emergencyModal').style.display = 'none';
             }
         });
 
