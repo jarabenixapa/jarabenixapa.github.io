@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Jarabe Nixapa</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-image: url('navidad.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #333;
+            position: relative;
+        }
+
+        .bubble-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            width: 10px;
+            height: 10px;
+            background-color: #ffffffb0;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: rise 6s infinite linear;
+            box-shadow: 0 0 10px #2e003b;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .logo-container {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .logo {
+            height: 80px;
+            width: auto;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 0.5px black;
+        }
+
+        .button-container {
+            background-color: rgba(255, 255, 255, 0);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .button {
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: rgba(189, 72, 72, 0.678);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button-text {
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .button:hover .button-text {
+            opacity: 0;
+        }
+
+        .button-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .button:hover .button-image {
+            opacity: 1;
+        }
+
+        .bottom-button {
+            grid-column: 1 / span 2;
+            justify-self: center;
+        }
+
+        .footer {
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #week-number {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .days-counter {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .days-counter:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        .emergency-number {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .emergency-number:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+            text-shadow: 0 0 15px rgba(255,255,255,0.8);
+        }
+
+        .claims-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .emergency-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .claims-modal-content, .emergency-modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: #333;
+        }
+
+        .claims-modal-close, .emergency-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .claims-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .claims-table th, .claims-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .claims-table th {
+            background-color: #502c2c;
+            color: white;
+        }
+
+        .claims-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .emergency-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media screen and (max-width: 600px) {
+            .header {
+                justify-content: space-between;
+            }
+
+            .logo {
+                height: 60px;
+            }
+
+            .question {
+                font-size: 1.2rem;
+            }
+
+            .button-container {
+                max-width: 250px;
+                grid-template-columns: 1fr;
+            }
+
+            .button {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+                height: 50px;
+            }
+
+            .bottom-button {
+                grid-column: 1;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .days-counter, .emergency-number {
+                position: static;
+                margin-top: 0;
+                text-align: center;
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+
+        @media screen and (max-height: 500px) {
+            .button-container {
+                max-width: 200px;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .question {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bubble-container"></div>
+
+    <header class="header">
+        <div class="logo-container" id="logo">
+            <img src="logo 1.png" alt="Logo" class="logo">
+        </div>
+        
+        <div id="week-number">Semana 50</div>
+    </header>
+
+    <div class="modal" id="imageModal">
+        <span class="close-modal">&times;</span>
+        <img src="jarabe.webp" alt="Imagen" class="modal-content" id="modalImage">
+    </div>
+
+    <main class="main-content">
+        <div class="question">Bienvenidos......</div>
+        
+        <div class="button-container">
+            <button class="button" id="jarabeTerminado">
+                <span class="button-text">Jarabe Terminado</span>
+                <img class="button-image" src="https://i.pinimg.com/originals/d6/df/30/d6df30903791e1668c2581931fb89225.jpg" alt="Jarabe Terminado">
+            </button>
+            <button class="button" id="jarabeSimple">
+                <span class="button-text">Jarabe Simple</span>
+                <img class="button-image" src="https://i0.wp.com/popkultur.de/wp-content/uploads/2016/01/coca-cola-lied-aus-der-werbung-m.jpg?resize=770%2C433&ssl=1" alt="Jarabe Simple">
+            </button>
+            <button class="button" id="cip">
+                <span class="button-text">CIP</span>
+                <img class="button-image" src="https://wallpaperaccess.com/full/1927998.jpg" alt="CIP">
+            </button>
+            <button class="button" id="mantenimiento">
+                <span class="button-text">Mantenimiento</span>
+                <img class="button-image" src="https://img-9gag-fun.9cache.com/photo/aD2D5rd_460s.jpg" alt="Mantenimiento">
+            </button>
+            <button class="button bottom-button" id="sharepoint">
+                <span class="button-text">¿Quieres volver al sharepoint?</span>
+                <img class="button-image" src="https://media.licdn.com/dms/image/v2/D4E12AQE3_xx0WfYQCg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1734368625721?e=2147483647&v=beta&t=EAtGK6uLW3Z6cugwmV48rUDsPisk8nDMa02E9cw3Spk" alt="SharePoint">
+            </button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="emergency-number" id="emergencyNumber">Número de emergencia</div>
+        <div>© 2025 Sitio Web Jarabe. Planta Nixapa 👻.</div>
+        <div class="days-counter" id="daysCounter">Días sin reclamos: calculando...</div>
+    </footer>
+
+    <div class="claims-modal" id="claimsModal">
+        <span class="claims-modal-close">&times;</span>
+        <div class="claims-modal-content">
+            <h2>Historial de Reclamos</h2>
+            <div id="claimsModalContent">Cargando reclamos...</div>
+        </div>
+    </div>
+
+    <div class="emergency-modal" id="emergencyModal">
+        <span class="emergency-modal-close">&times;</span>
+        <div class="emergency-modal-content">
+            <h2>Número de Emergencia</h2>
+            <img src="123.png" alt="Número de Emergencia" class="emergency-image" id="emergencyImage">
+        </div>
+    </div>
+
+    <script>
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            let weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return weekNo;
+        }
+
+        document.getElementById('week-number').textContent = `Semana ${getWeekNumber(new Date())}`;
+
+        document.getElementById('jarabeTerminado').addEventListener('click', () => {
+            window.location.href = 'jarter.html';
+        });
+
+        document.getElementById('jarabeSimple').addEventListener('click', () => {
+            window.location.href = 'jarsim.html';
+        });
+
+        document.getElementById('cip').addEventListener('click', () => {
+            window.location.href = 'cip.html';
+        });
+
+        document.getElementById('mantenimiento').addEventListener('click', () => {
+            window.location.href = 'manto.html';
+        });
+
+        document.getElementById('sharepoint').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABESCSD';
+        });
+
+        function createBubble() {
+            const bubble = document.createElement('span');
+            bubble.classList.add('bubble');
+            const size = Math.random() * 20 + 10;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.animationDuration = `${Math.random() * 5 + 3}s`;
+            document.querySelector('.bubble-container').appendChild(bubble);
+            setTimeout(() => bubble.remove(), 8000);
+        }
+
+        setInterval(createBubble, 500);
+
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const logo = document.getElementById('logo');
+        const closeModal = document.getElementsByClassName('close-modal')[0];
+
+        logo.onclick = function() {
+            modal.style.display = 'flex';
+        }
+
+        closeModal.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAneea8jq-qIoymTG909zP76OjcFx7ufa8",
+            authDomain: "reclamo-39ff3.firebaseapp.com",
+            projectId: "reclamo-39ff3",
+            messagingSenderId: "443679031726",
+            appId: "1:443679031726:web:568838f29089d4fb74483f"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        async function calculateDaysWithoutClaims() {
+            try {
+                const querySnapshot = await db.collection('quality_claims')
+                    .orderBy('date', 'desc')
+                    .limit(1)
+                    .get();
+
+                if (querySnapshot.empty) {
+                    document.getElementById('daysCounter').textContent = "Días sin reclamos: 0";
+                    return;
+                }
+
+                const lastClaim = querySnapshot.docs[0].data();
+                const lastClaimDate = new Date(lastClaim.date);
+                const today = new Date();
+                
+                const diffTime = today - lastClaimDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                document.getElementById('daysCounter').textContent = `Días sin reclamos: ${diffDays}`;
+                
+            } catch (error) {
+                console.error("Error al calcular días sin reclamos:", error);
+                document.getElementById('daysCounter').textContent = "Días sin reclamos: error";
+            }
+        }
+
+        async function loadAllClaims() {
+            const modalContent = document.getElementById('claimsModalContent');
+            modalContent.innerHTML = '<p>Cargando reclamos...</p>';
+            
+            try {
+                const querySnapshot = await db.collection('quality_claims')
+                    .orderBy('date', 'desc')
+                    .get();
+
+                if (querySnapshot.empty) {
+                    modalContent.innerHTML = '<p>No hay reclamos registrados.</p>';
+                    return;
+                }
+
+                let html = '<table class="claims-table">';
+                html += '<tr><th>Fecha</th><th>Área/Línea</th><th>Tipo</th><th>Descripción</th><th>Estado</th></tr>';
+                
+                querySnapshot.forEach(doc => {
+                    const claim = doc.data();
+                    html += `
+                        <tr>
+                            <td>${claim.date}</td>
+                            <td>${claim.lines}</td>
+                            <td>${claim.type}</td>
+                            <td>${claim.reason}</td>
+                            <td>${claim.status}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</table>';
+                modalContent.innerHTML = html;
+                
+            } catch (error) {
+                console.error("Error al cargar reclamos:", error);
+                modalContent.innerHTML = '<p>Error al cargar reclamos.</p>';
+            }
+        }
+
+        document.getElementById('daysCounter').addEventListener('click', () => {
+            loadAllClaims();
+            document.getElementById('claimsModal').style.display = 'flex';
+        });
+
+        document.querySelector('.claims-modal-close').addEventListener('click', () => {
+            document.getElementById('claimsModal').style.display = 'none';
+        });
+
+        document.getElementById('emergencyNumber').addEventListener('click', () => {
+            document.getElementById('emergencyModal').style.display = 'flex';
+        });
+
+        document.querySelector('.emergency-modal-close').addEventListener('click', () => {
+            document.getElementById('emergencyModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('claimsModal')) {
+                document.getElementById('claimsModal').style.display = 'none';
+            }
+            if (event.target === document.getElementById('emergencyModal')) {
+                document.getElementById('emergencyModal').style.display = 'none';
+            }
+        });
+
+        calculateDaysWithoutClaims();
+        setInterval(calculateDaysWithoutClaims, 12 * 60 * 60 * 1000);
+    </script>
+</body>
+</html>

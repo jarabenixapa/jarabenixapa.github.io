@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Mantenimiento</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-image: url('mtto.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #333;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: transparent;
+            color: white;
+        }
+        
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 0.5px black;
+        }
+        
+        .tools-container {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .tool-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: rgba(0,0,0,0.3);
+        }
+        
+        .tool-item:hover {
+            transform: scale(1.05);
+            background-color: rgba(139, 0, 0, 0.5);
+        }
+        
+        .tool-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+        
+        .tool-label {
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+        
+        .password-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .password-container input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .password-container button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .password-container button:hover {
+            transform: scale(1.05);
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .footer {
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+        }
+
+        #week-number {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .menu-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.05);
+            background-color: darkred;
+        }
+
+        @media screen and (max-width: 768px) {
+            .tools-container {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 500px;
+                gap: 15px;
+            }
+            
+            .tool-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .tool-label {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .tools-container {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+            }
+            
+            .tool-item {
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+            
+            .tool-image {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .question {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media screen and (max-height: 500px) {
+            .tools-container {
+                max-width: 600px;
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .question {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div id="week-number">Semana 50</div>
+        <button class="menu-button" id="menu-btn">Menú</button>
+    </header>
+
+    <main class="main-content">
+        <div class="question">Mantenimiento.</div>
+        
+        <div class="tools-container">
+            <div class="tool-item" id="mangyver">
+                <img src="mangyver.png" alt="Mangyver" class="tool-image">
+                <div class="tool-label">Mangyver</div>
+            </div>
+            <div class="tool-item" id="seguridadterritorial">
+                <img src="seguridadterritorial.png" alt="Seguridad Territorial" class="tool-image">
+                <div class="tool-label">Seguridad Territorial</div>
+            </div>
+            <div class="tool-item" id="acadia">
+                <img src="A.png" alt="Acadia" class="tool-image">
+                <div class="tool-label">Acadia</div>
+            </div>
+            <div class="tool-item" id="rutinas">
+                <img src="I.png" alt="InteractionLog" class="tool-image">
+                <div class="tool-label">InteractionLog</div>
+            </div>
+            <div class="tool-item" id="autonomo">
+                <img src="autónomo.png" alt="Autónomo" class="tool-image">
+                <div class="tool-label">Autónomo</div>
+            </div>
+            <div class="tool-item" id="sharepoint">
+                <img src="manto.png" alt="Sharepoint" class="tool-image">
+                <div class="tool-label">Sharepoint De Mantenimiento</div>
+            </div>
+            <div class="tool-item" id="ato">
+                <img src="ato.png" alt="ATO" class="tool-image">
+                <div class="tool-label">ATO</div>
+            </div>
+            <div class="tool-item" id="cambio">
+                <img src="T.png" alt="Tablero de Cambio" class="tool-image">
+                <div class="tool-label">Tablero De Cambio De Turno</div>
+            </div>
+            <div class="tool-item" id="guardian">
+                <img src="G.png" alt="Guardian" class="tool-image">
+                <div class="tool-label">Guardian</div>
+            </div>
+            <div class="tool-item" id="sellos">
+                <img src="r.png" alt="Reporte de sellos" class="tool-image">
+                <div class="tool-label">Reporte de sellos</div>
+            </div>
+            <div class="tool-item" id="Repuestos">
+                <img src="re.png" alt="Repuestos" class="tool-image">
+                <div class="tool-label">Repuestos</div>
+            </div>
+            <div class="tool-item" id="Costos">
+                <img src="costos.png" alt="Costos" class="tool-image">
+                <div class="tool-label">Costos</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        © 2025 Sitio Web Jarabe. Planta Nixapa 👻.
+    </footer>
+
+    <script>
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            let weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return weekNo;
+        }
+
+        document.getElementById('week-number').textContent = `Semana ${getWeekNumber(new Date())}`;
+
+        document.getElementById('mangyver').addEventListener('click', () => {
+            window.location.href = 'https://mazsupplyapps.ab-inbev.com/mangyver';
+        });
+
+        document.getElementById('seguridadterritorial').addEventListener('click', () => {
+            window.location.href = 'https://seguridadterritorial-64f0f.web.app/';
+        });
+
+        document.getElementById('acadia').addEventListener('click', () => {
+            window.location.href = 'https://ab-inbev.acadia.sysalli.com/browse';
+        });
+
+        document.getElementById('rutinas').addEventListener('click', () => {
+            window.location.href = 'https://interactionlog.ab-inbev.com/home';
+        });
+
+         document.getElementById('autonomo').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABESCSD/Archivos%20ETO/Forms/AllItems.aspx?newTargetListUrl=%2Fsites%2FJARABESCSD%2FArchivos%20ETO&viewpath=%2Fsites%2FJARABESCSD%2FArchivos%20ETO%2FForms%2FAllItems%2Easpx&id=%2Fsites%2FJARABESCSD%2FArchivos%20ETO%2FMANTENIMIENTO%2FAUTONOMOS%202025&viewid=0ab03584%2D2910%2D4957%2D9d8a%2Dc14493b3797e';
+        });
+
+        document.getElementById('sharepoint').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABECENTRODEVALVULASYBOMBAS';
+        });
+        document.getElementById('ato').addEventListener('click', () => {
+            window.location.href = 'ato.html';
+        });
+
+        document.getElementById('cambio').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/:x:/r/sites/JARABECENTRODEVALVULASYBOMBAS/_layouts/15/Doc.aspx?sourcedoc=%7BC0C96BEA-D0AD-4C90-BC53-4D51EAC2FEFB%7D&file=TABLERO%20DE%20CAMBIO%20DE%20TURNO%202025%20BYV.xlsx&action=default&mobileredirect=true';
+        });
+
+        document.getElementById('guardian').addEventListener('click', () => {
+            window.location.href = 'https://guardian.ab-inbev.com/';
+        });
+
+        document.getElementById('sellos').addEventListener('click', () => {
+            window.location.href = 'https://mantenimiento-1dba9.web.app/';
+        });
+
+        document.getElementById('Repuestos').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/sites/JARABESCSD/Archivos%20ETO/Forms/AllItems.aspx?id=%2Fsites%2FJARABESCSD%2FArchivos%20ETO%2FMANTENIMIENTO%2FATO%20REPUESTOS&viewid=0ab03584%2D2910%2D4957%2D9d8a%2Dc14493b3797e';
+        });
+
+        document.getElementById('Costos').addEventListener('click', () => {
+            window.location.href = 'https://anheuserbuschinbev.sharepoint.com/:x:/r/sites/JARABECENTRODEVALVULASYBOMBAS/_layouts/15/Doc.aspx?sourcedoc=%7B39890654-97EA-4E79-A3EB-517C86F52B07%7D&file=Resumen%20indicadores%20bombas%20y%20valvulas.xlsx&action=default&mobileredirect=true';
+        });
+        
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
