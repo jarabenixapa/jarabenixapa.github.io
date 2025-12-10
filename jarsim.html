@@ -185,6 +185,7 @@
             <button class="button" id="semaforo">Semáforo Territorial</button>
             <button class="button" id="avisos">Avisos Sistema Dilutor</button>
             <button class="button" id="seguimiento">Seguimiento de filtración</button>
+            <button class="button bottom-button" id="cip">CIP Jarabe Simple</button>
         </div>
     </main>
 
@@ -259,15 +260,14 @@
             window.location.href = 'https://filtraciones-94e6b.web.app/';
         });
 
+        document.getElementById('cip').addEventListener('click', () => {
+            window.location.href = 'https://cip-jarabesimple.web.app/';
+        });
+
+
         document.getElementById('menu-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
